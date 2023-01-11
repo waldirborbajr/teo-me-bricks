@@ -166,7 +166,7 @@ class ClusterIntegraton:
 
         hour = datetime.datetime.now().hour
 
-        if start_on < hour < stop_on:
+        if start_on <= hour <= stop_on:
             print(f"Ligando o cluster {cluster_id} ...")
             self.cluster_client.start(cluster_id)
             print("Ok.")

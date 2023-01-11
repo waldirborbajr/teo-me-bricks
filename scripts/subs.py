@@ -80,7 +80,7 @@ def main():
         print(now)
 
         execute()
-        time.sleep(60 * 5)
+        time.sleep(60 * 2)
 
 
 if __name__ == "__main__":

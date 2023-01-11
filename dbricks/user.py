@@ -133,7 +133,7 @@ class UserIntegration:
         email = user_data["descUserEmail"]
         group = user_data["idGroup"]
 
-        resp = self.user_api.create_user(user_email=email, groups=[group])
+        resp = self.user_client.create_user(user_email=email, groups=[group])
         data = resp.json()
 
         try:
@@ -164,7 +164,7 @@ class UserIntegration:
         df = pd.read_sql_query(query, self.con)
         for i in tqdm(df.index):
             data = df.iloc[i].to_dict()
-            self.create_user(self.con, self.user_client, data)
+            self.create_user(data)
 
 
     def delete_users(self):
@@ -208,7 +208,7 @@ class UserIntegration:
         df = pd.read_sql_query(query, self.con)
         for i in tqdm(df.index):
             data = df.iloc[i].to_dict()
-            resp = self.update_user(self.user_client, data)
+            resp = self.update_user(data)
 
 
     def activate_user(self, user_data: dict):
@@ -245,7 +245,7 @@ class UserIntegration:
         df = pd.read_sql_query(query, self.con)
         for i in tqdm(df.index):
             data = df.iloc[i].to_dict()
-            self.activate_user(self.con, self.user_client, data)
+            self.activate_user(data)
 
 
     def deactivate_user(self, user_data: dict):
@@ -281,7 +281,7 @@ class UserIntegration:
         df = pd.read_sql_query(query, self.con)
         for i in tqdm(df.index):
             data = df.iloc[i].to_dict()
-            self.deactivate_user(self.con, self.user_client, data)
+            self.deactivate_user(data)
 
 
     def update_databricks_table(self):
