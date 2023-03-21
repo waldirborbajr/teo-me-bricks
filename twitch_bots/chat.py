@@ -5,13 +5,11 @@ import dotenv
 import pandas as pd
 from twitchio.ext import commands
 
-sys.path.insert(
-    0,
-    ".",
-)
+sys.path.insert(0, ".")
 
 from db import db
 from db import user
+from db import presence
 
 
 class Bot(commands.Bot):
@@ -25,6 +23,19 @@ class Bot(commands.Bot):
         print(f"Id do bot: {self.user_id}")
 
     @commands.command()
+    async def presente(self, ctx: commands.Context):
+        nick_user = ctx.author.name.lower()
+        con = db.connect(self.db_url)
+
+        if presence.check_assing_presence(con, nick_user):
+            await ctx.author.send("Você ja assinou a lista de presença hoje!")
+
+        else:
+            presence.assing_presence(con, nick_user)
+            await ctx.channel.send(f"@{nick_user}, lista de presença assinada com sucesso!")
+
+
+    @commands.command()
     async def email(self, ctx: commands.Context):
 
         user_data = {
@@ -36,7 +47,9 @@ class Bot(commands.Bot):
         con = db.connect(self.db_url)
 
         if user.user_exists(
-            con=con, key_field="descUserEmail", value=user_data["descUserEmail"]
+            con=con,
+            key_field="descUserEmail",
+            value=user_data["descUserEmail"],
         ):
             await ctx.author.send(
                 "Este email já tem acesso ao Databricks. Tente recuperar sua senha ou entre em contato o streamer."
