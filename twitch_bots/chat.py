@@ -28,12 +28,11 @@ class Bot(commands.Bot):
         con = db.connect(self.db_url)
 
         if presence.check_assing_presence(con, nick_user):
-            await ctx.author.send("Você ja assinou a lista de presença hoje!")
+            print(f"@{nick_user}, Você ja assinou a lista de presença hoje!")
 
         else:
             presence.assing_presence(con, nick_user)
-            await ctx.channel.send(f"@{nick_user}, lista de presença assinada com sucesso!")
-
+            print(f"@{nick_user}, lista de presença assinada com sucesso!")
 
     @commands.command()
     async def email(self, ctx: commands.Context):
