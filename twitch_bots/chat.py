@@ -67,7 +67,7 @@ class Bot(commands.Bot):
             insert_data = user_data
 
         user.update_user(con, user_data=insert_data, key_field="descTwitchNick")
-        # await ctx.channel.send("Email atualizado com sucesso!")
+        await ctx.author.send("Email atualizado com sucesso!")
 
 
 def main():
